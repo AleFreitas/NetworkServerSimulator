@@ -1,5 +1,7 @@
 import socket
 import threading
+import pickle  # Adicionado para serialização/desserialização
+import matplotlib.pyplot as plt
 
 HEADER = 64                                             #Tamanho padronizado da Mensagem
 PORT = 5050                                             #Porta a ser utilizada
@@ -18,27 +20,35 @@ def handle_client(conn, addr):
 
     connected = True
     while connected:
-        msg_lenght = conn.recv(HEADER).decode(FORMAT)   # Recebe o tamanho da mensagem
-        if msg_lenght:
-            msg_lenght = int(msg_lenght)
-            msg = conn.recv(msg_lenght).decode(FORMAT)      # Recebe a mensagem de fato
-            if msg == DISCONNECT_MESSAGE:
-                connected = False
+        # Recebe o tamanho da mensagem
+        msg_length = conn.recv(HEADER).decode(FORMAT)
+        if msg_length:
+            msg_length = int(msg_length)
+            # Recebe a mensagem de fato
+            serialized_signal = conn.recv(msg_length)
 
-                # Transforma a mensagem em bits
-                msg_in_bits = ''.join(format(ord(char), '08b') for char in msg)
-                print(f"Mensagem em bits: {msg_in_bits}")
+            # Desserializa o sinal
+            signal = pickle.loads(serialized_signal)
+
+            # Faça o que precisar com o sinal, por exemplo, plotar
+            print(f"Sinal recebido: {signal}")
+            plt.plot(signal)
+            plt.title("Sinal Recebido")
+            plt.xlabel("Tempo (s)")
+            plt.ylabel("Amplitude")
+            plt.show()
+
 
     conn.close()
 
 def start():
     server.listen()
-    print(f"O servidor está ouvindo em {SERVER}")
+    print(f"O servidor está ouvindo em {SERVER}:{PORT}")
     while True:
-         conn, addr = server.accept()
-         tread = threading.Thread(target=handle_client, args=(conn, addr))
-         tread.start()
-         print(f"Conexões Ativas {threading.active_count() - 1}")
+        conn, addr = server.accept()
+        thread = threading.Thread(target=handle_client, args=(conn, addr))
+        thread.start()
+        print(f"Conexões Ativas {threading.active_count() - 1}")
 
 print("Servidor está iniciando")
 start()
