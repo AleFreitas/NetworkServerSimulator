@@ -25,7 +25,9 @@ def handle_client(conn, addr):
             if msg == DISCONNECT_MESSAGE:
                 connected = False
 
-            print(f"{addr} {msg}")
+                # Transforma a mensagem em bits
+                msg_in_bits = ''.join(format(ord(char), '08b') for char in msg)
+                print(f"Mensagem em bits: {msg_in_bits}")
 
     conn.close()
 
