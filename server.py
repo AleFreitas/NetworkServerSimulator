@@ -19,12 +19,13 @@ def handle_client(conn, addr):
     connected = True
     while connected:
         msg_lenght = conn.recv(HEADER).decode(FORMAT)   # Recebe o tamanho da mensagem
-        msg_lenght = int(msg_lenght)
-        msg = conn.recv(msg_lenght).decode(FORMAT)      # Recebe a mensagem de fato
-        if msg == DISCONNECT_MESSAGE:
-            connected = False
+        if msg_lenght:
+            msg_lenght = int(msg_lenght)
+            msg = conn.recv(msg_lenght).decode(FORMAT)      # Recebe a mensagem de fato
+            if msg == DISCONNECT_MESSAGE:
+                connected = False
 
-        print(f"{addr} {msg}")
+            print(f"{addr} {msg}")
 
     conn.close()
 
@@ -35,7 +36,7 @@ def start():
          conn, addr = server.accept()
          tread = threading.Thread(target=handle_client, args=(conn, addr))
          tread.start()
-         print(f"Conexões Ativas {threading.activeCount() - 1}")
+         print(f"Conexões Ativas {threading.active_count() - 1}")
 
 print("Servidor está iniciando")
 start()
