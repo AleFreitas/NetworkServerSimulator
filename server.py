@@ -2,6 +2,7 @@ import socket
 import threading
 import pickle  # Adicionado para serialização/desserialização
 import matplotlib.pyplot as plt
+from carrier_modulation.ask import ask
 
 HEADER = 64                                             #Tamanho padronizado da Mensagem
 PORT = 5050                                             #Porta a ser utilizada
@@ -40,7 +41,10 @@ def handle_client(conn, addr):
 
             print(f"Sinal recebido: {signal}")
             if(signal != DISCONNECT_MESSAGE):
-                display_signal(signal)
+                A = 1
+                f = 10
+                bitrate = 100
+                display_signal(ask(A, f, signal, bitrate))
 
     conn.close()
 
