@@ -15,6 +15,14 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  #Instancia o servido
 server.bind(ADDR)                                           #Conecta com o endereço completo
 
 
+def display_signal(signal):
+    plt.plot(signal)
+    plt.title("Sinal Recebido")
+    plt.xlabel("Tempo (s)")
+    plt.ylabel("Amplitude")
+    plt.show()
+
+
 def handle_client(conn, addr):
     print(f"Nova conexão: {addr}")
 
@@ -30,14 +38,9 @@ def handle_client(conn, addr):
             # Desserializa o sinal
             signal = pickle.loads(serialized_signal)
 
-            # Faça o que precisar com o sinal, por exemplo, plotar
             print(f"Sinal recebido: {signal}")
-            plt.plot(signal)
-            plt.title("Sinal Recebido")
-            plt.xlabel("Tempo (s)")
-            plt.ylabel("Amplitude")
-            plt.show()
-
+            if(signal != DISCONNECT_MESSAGE):
+                display_signal(signal)
 
     conn.close()
 
