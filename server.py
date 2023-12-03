@@ -16,9 +16,9 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  #Instancia o servido
 server.bind(ADDR)                                           #Conecta com o endereço completo
 
 
-def display_signal(signal):
+def display_signal(signal,modulation):
     plt.plot(signal)
-    plt.title("Sinal Recebido")
+    plt.title(f"Sinal {modulation}")
     plt.xlabel("Tempo (s)")
     plt.ylabel("Amplitude")
     plt.show()
@@ -44,7 +44,7 @@ def handle_client(conn, addr):
                 A = 1
                 f = 10
                 bitrate = 100
-                display_signal(ask(A, f, signal, bitrate))
+                display_signal(ask(A, f, signal, bitrate),'ASK')
 
     conn.close()
 
