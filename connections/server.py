@@ -4,7 +4,7 @@ import pickle
 
 def config():
     HEADER = 4
-    PORT_RECEPTOR = 5051
+    PORT_RECEPTOR = 5052
     SERVER = socket.gethostbyname(socket.gethostname())
     ADDR = (SERVER, PORT_RECEPTOR)
     DISCONNECT_MESSAGE = "Desconectar"
