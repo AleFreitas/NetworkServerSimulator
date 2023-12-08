@@ -1,4 +1,4 @@
-from NetworkServerSimulator.connections.server import *
+from connections.server import *
 
 serverData = config()
 start(serverData)
