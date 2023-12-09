@@ -26,7 +26,7 @@ def enviar_mensagem():
     tipo_codificacao = cod.get()
     opcao_modulacao = modulacao.get()
     clientData = connect('transmissor')
-    opcoes = [bits_mensagem, tipo_codificacao]
+    opcoes = [tipo_codificacao, bits_mensagem]
     for opcao in opcoes:
         send(opcao,clientData)
     disconnect(clientData)
