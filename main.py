@@ -1,9 +1,3 @@
-from connections.server import *
-from interface import *
-
-serverData = config()
-start(serverData)
+from interface import interface_grafica
 
 interface_grafica()
-
-
