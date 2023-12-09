@@ -3,6 +3,7 @@ import threading
 import pickle
 from graph.matplot import *
 
+sinal = False
 def config():
     HEADER = 64
     PORT = 5052
@@ -26,8 +27,6 @@ def handle_client(conn, addr, serverData):
             msg = pickle.loads(serialized_msg)
             if msg == serverData['DISCONNECT_MESSAGE']:
                 connect = False
-            else:
-               # plot(msg)  PRECISA SAIR DAQUI PRA INTERFACE
             print(f"{addr} {msg}")
     conn.close()
 
