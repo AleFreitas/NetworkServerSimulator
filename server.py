@@ -1,9 +1,10 @@
 import socket
 import threading
 import pickle
+from graph.matplot import *
 
 def config():
-    HEADER = 4
+    HEADER = 64
     PORT = 5052
     SERVER = socket.gethostbyname(socket.gethostname())
     ADDR = (SERVER, PORT)
@@ -25,6 +26,8 @@ def handle_client(conn, addr, serverData):
             msg = pickle.loads(serialized_msg)
             if msg == serverData['DISCONNECT_MESSAGE']:
                 connect = False
+            else:
+                plot(msg)
             print(f"{addr} {msg}")
     conn.close()
 

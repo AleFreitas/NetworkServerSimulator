@@ -1,8 +1,7 @@
 from tkinter import *
 import tkinter as tk
-import threading
 from connections.client import *
-from connections.server import *
+from NetworkServerSimulator.server import *
 
 # Variáveis globais para armazenar os valores
 mensagem = ""
