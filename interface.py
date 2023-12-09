@@ -8,15 +8,25 @@ mensagem = ""
 tipo_codificacao = ""
 opcao_modulacao = ""
 opcoes = []
+bits_mensagem = []
+
+def converter_mensagem_para_bits(mensagem):
+    # Converte cada caractere da mensagem para sua representação binária
+    bits_mensagem = []
+    for char in mensagem:
+        bits_char = bin(ord(char))[2:].zfill(8)  # Obtém a representação binária de cada caractere
+        bits_mensagem.extend(map(int, list(bits_char)))  # Adiciona os bits à lista
+    return bits_mensagem
 
 def enviar_mensagem():
     # Atualiza as variáveis globais com os valores dos widgets
     global mensagem, tipo_codificacao, opcao_modulacao
     mensagem = text_input.get()
+    bits_mensagem = converter_mensagem_para_bits(mensagem)
     tipo_codificacao = cod.get()
     opcao_modulacao = modulacao.get()
     clientData = connect('transmissor')
-    opcoes = [mensagem, tipo_codificacao]
+    opcoes = [bits_mensagem, tipo_codificacao]
     for opcao in opcoes:
         send(opcao,clientData)
     disconnect(clientData)
@@ -79,3 +89,4 @@ def interface_grafica():
     label_8QM.grid(row=9, column=0)
 
     return window.mainloop()
+
