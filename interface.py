@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter as tk
 import threading
 from connections.client import *
+from connections.server import *
 
 # Variáveis globais para armazenar os valores
 mensagem = ""
@@ -30,6 +31,8 @@ def enviar_mensagem():
     for opcao in opcoes:
         send(opcao,clientData)
     disconnect(clientData)
+    ServerData = config()
+    start(ServerData)
 
 def interface_grafica():
     # Instância da janela
