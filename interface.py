@@ -2,6 +2,8 @@ from tkinter import *
 import tkinter as tk
 from connections.client import *
 from NetworkServerSimulator.server import *
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 
 # Variáveis globais para armazenar os valores
 mensagem = ""
@@ -89,6 +91,11 @@ def interface_grafica():
     label_ASK.grid(row=7, column=0)
     label_FSK.grid(row=8, column=0)
     label_8QM.grid(row=9, column=0)
+
+    fig, ax = plt.subplots(figsize=(5, 4), dpi=100)
+    canvas = FigureCanvasTkAgg(fig, master=window)
+    canvas_widget = canvas.get_tk_widget()
+    canvas_widget.grid(row=10, column=0, columnspan=3)
 
     return window.mainloop()
 
