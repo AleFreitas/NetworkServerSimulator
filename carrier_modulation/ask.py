@@ -1,9 +1,27 @@
 import numpy as np
 
-def ask(A, f, signal, bitrate):
-    bit_duration = 1 / (2 * bitrate)  # Espaçamento de 1/2 segundo
+def ask(A, f, signal):
+    """
+    Recebe a amplitude A, a frequência da portadora f e o sinal codificado.
+    
+    Retorna o sinal modulado em ASK.
+    """
+    signal_size = int(len(signal)/100)
+    ask_signal = np.zeros(signal_size * 100)
 
-    # Modulação ASK
-    time_points = np.arange(0, len(signal) * bit_duration, bit_duration)
-    ask_signal = [A * np.sin(2 * np.pi * f * t) if bit > 0 else 0 for t, bit in zip(time_points, signal)]
+    signal_to_bit_stream = []
+    for i in range(signal_size):
+        if(signal[i*100+1] > 0):
+            signal_to_bit_stream.append(1)
+        else:
+            signal_to_bit_stream.append(0)
+
+    for i in range(signal_size):
+        if signal_to_bit_stream[i] == 1:
+            for j in range(1, 101):
+                ask_signal[i * 100 + j - 1] = A * np.sin(2 * np.pi * f * j / 100)
+        else:
+            for j in range(1, 101):
+                ask_signal[i * 100 + j - 1] = 0
+
     return ask_signal
