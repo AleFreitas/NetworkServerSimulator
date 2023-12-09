@@ -27,7 +27,7 @@ def handle_client(conn, addr, serverData):
             if msg == serverData['DISCONNECT_MESSAGE']:
                 connect = False
             else:
-                plot(msg)
+               # plot(msg)  PRECISA SAIR DAQUI PRA INTERFACE
             print(f"{addr} {msg}")
     conn.close()
 
