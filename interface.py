@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from globais import *
 from threading import Thread
 from bits import converter_mensagem_para_bits
-import queue
 def enviar_mensagem():
     # Atualiza as variáveis globais com os valores dos widgets
     bits_mensagem = converter_mensagem_para_bits(mensagem.get())
