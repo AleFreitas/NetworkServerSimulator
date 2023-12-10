@@ -113,22 +113,22 @@ def interface_grafica(bool):
 
     # Verificação de Erro
     label_erro = Label(window, text='Verificação de Erro')
-    label_erro.grid(row=5, column=2, padx=10)
+    label_erro.grid(row=1, column=3, padx=10)
 
     button_PAR = Radiobutton(window, text="PAR", variable=erro, value='PAR')
     button_CRC = Radiobutton(window, text="CRC", variable=erro, value='CRC')
 
-    button_PAR.grid(row=6, column=2, padx=10)
-    button_CRC.grid(row=7, column=2, padx=10)
+    button_PAR.grid(row=2, column=3, padx=10)
+    button_CRC.grid(row=3, column=3, padx=10)
 
     #Adicionar Erro
     label_erro_ad = Label(window, text='Adicionar Erro?')
-    label_erro_ad.grid(row=5, column=3, padx=10)
+    label_erro_ad.grid(row=1, column=4, padx=10)
 
     button_ERRO_ad_S = Radiobutton(window, text="SIM", variable=erro_ad, value='SIM')
-    button_ERRO_ad_S.grid(row=6, column=3, padx=10)
+    button_ERRO_ad_S.grid(row=2, column=4, padx=10)
     button_ERRO_ad_N = Radiobutton(window, text="NAO", variable=erro_ad, value='NAO')
-    button_ERRO_ad_N.grid(row=7, column=3, padx=10)
+    button_ERRO_ad_N.grid(row=3, column=4, padx=10)
 
     # Modulação
     label_mod = Label(window, text='Modulação')
