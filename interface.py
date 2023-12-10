@@ -130,14 +130,14 @@ def handle_client(conn, addr, serverData):
             if msg == serverData['DISCONNECT_MESSAGE']:
                 connect = False
             else:
-                message_queue.put(msg)
+                informacoes.append(msg)
             print(f"{addr} {msg}")
     conn.close()
 
 def start(serverData):
     serverData['server'].listen()
     print(f"O servidor está ouvindo em {serverData['ip']}")
-    while True:
+    while len(informacoes) != 3:
         conn, addr =  serverData['server'].accept()
         thread = threading.Thread(target=handle_client, args=(conn, addr, serverData))
         thread.start()
