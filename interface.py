@@ -14,6 +14,7 @@ def enviar_mensagem():
     opcoes.append(cod.get())
     opcoes.append(modulacao.get())
     opcoes.append(erro.get())
+    opcoes.append(erro_ad.get())
     clientData = connect("transmissor")
     for opcao in opcoes:
         send(opcao, clientData)
@@ -47,6 +48,9 @@ def interface_grafica(bool):
     
     global erro
     erro = tk.StringVar()
+
+    global erro_ad
+    erro_ad = tk.StringVar()
 
     button_enviar = Button(window, text='Enviar', command=enviar_mensagem)
     button_enviar.grid(row=0, column=2, pady=5)
@@ -85,6 +89,15 @@ def interface_grafica(bool):
 
     button_PAR.grid(row=6, column=2, padx=10)
     button_CRC.grid(row=7, column=2, padx=10)
+
+    #Adicionar Erro
+    label_erro_ad = Label(window, text='Adicionar Erro?')
+    label_erro_ad.grid(row=5, column=3, padx=10)
+
+    button_ERRO_ad_S = Radiobutton(window, text="SIM", variable=erro_ad, value='SIM')
+    button_ERRO_ad_S.grid(row=6, column=3, padx=10)
+    button_ERRO_ad_N = Radiobutton(window, text="NAO", variable=erro_ad, value='NAO')
+    button_ERRO_ad_N.grid(row=7, column=3, padx=10)
 
     # Modulação
     label_mod = Label(window, text='Modulação')
