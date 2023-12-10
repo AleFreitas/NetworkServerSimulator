@@ -7,8 +7,11 @@ from globais import *
 from threading import Thread
 from bits import converter_mensagem_para_bits
 
-ax = None  # Garante que 'ax' seja global
-canvas = None
+ax_digital = None  # Garante que 'ax' seja global
+canvas_digital = None
+
+ax_mod = None  # Garante que 'ax' seja global
+canvas_mod = None
 def enviar_mensagem():
     # Atualiza as variáveis globais com os valores dos widgets
     bits_mensagem = converter_mensagem_para_bits(mensagem.get())
@@ -25,14 +28,25 @@ def enviar_mensagem():
 def atualizar_graficos():
 
     # Atualize os gráficos
-    ax.clear()
-    ax.plot(informacoes[0])
-    ax.set_title(opcoes[1])
-    ax.set_xlabel("Tempo(s)")
-    ax.set_ylabel("Amplitude")
+    ax_digital.clear()
+    ax_digital.plot(informacoes[0])
+    ax_digital.set_title(opcoes[1])
+    ax_digital.set_xlabel("Tempo(s)")
+    ax_digital.set_ylabel("Amplitude")
 
     # Atualize a tela da interface gráfica
-    canvas.draw()
+    canvas_digital.draw()
+
+    ax_mod.clear()
+    ax_mod.plot(informacoes[0])
+    ax_mod.set_title(opcoes[1])
+    ax_mod.set_xlabel("Tempo(s)")
+    ax_mod.set_ylabel("Amplitude")
+
+    # Atualize a tela da interface gráfica
+    canvas_mod.draw()
+
+
 def interface_grafica(bool):
 
     if bool == True:
@@ -128,11 +142,19 @@ def interface_grafica(bool):
     label_FSK.grid(row=3, column=0, padx=10)
     label_8QM.grid(row=4, column=0, padx=10)
 
-    global ax, canvas
-    fig, ax = plt.subplots(figsize=(5, 4), dpi=100)
-    canvas = FigureCanvasTkAgg(fig, master=window)
-    canvas_widget = canvas.get_tk_widget()
-    canvas_widget.grid(row=8, column=0, columnspan=3, pady=10)
+    # Gráfico Digital
+    global ax_digital, canvas_digital
+    fig_digital, ax_digital = plt.subplots(figsize=(5, 4), dpi=100)
+    canvas_digital = FigureCanvasTkAgg(fig_digital, master=window)
+    canvas_widget_digital = canvas_digital.get_tk_widget()
+    canvas_widget_digital.grid(row=8, column=0, columnspan=3, pady=10)
+
+    # Gráfico de Modulação
+    global ax_mod, canvas_mod
+    fig_mod, ax_mod = plt.subplots(figsize=(5, 4), dpi=100)
+    canvas_mod = FigureCanvasTkAgg(fig_mod, master=window)
+    canvas_widget_mod = canvas_mod.get_tk_widget()
+    canvas_widget_mod.grid(row=8, column=3, columnspan=3, pady=10)
 
     return window.mainloop()
 
