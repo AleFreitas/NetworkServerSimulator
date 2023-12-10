@@ -1,6 +1,6 @@
 import numpy as np
 
-def ask(A, f, signal):
+def ask(A, f1, f2, signal):
     """
     Recebe a amplitude A, a frequência da portadora f e o sinal codificado.
     

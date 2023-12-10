@@ -6,13 +6,22 @@ import matplotlib.pyplot as plt
 from globais import *
 from threading import Thread
 from bits import converter_mensagem_para_bits
+from carrier_modulation.ask import *
+from carrier_modulation.fsk import *
 
 ax_digital = None  # Garante que 'ax' seja global
 canvas_digital = None
 
 ax_mod = None  # Garante que 'ax' seja global
 canvas_mod = None
+
+encoding_mod = {
+        'ASK': ask,
+        'FSK': fsk,
+    }
+
 def enviar_mensagem():
+    global bits_mensagem
     # Atualiza as variáveis globais com os valores dos widgets
     bits_mensagem = converter_mensagem_para_bits(mensagem.get())
     opcoes.append(bits_mensagem)
@@ -27,6 +36,7 @@ def enviar_mensagem():
 
 def atualizar_graficos():
 
+    global bits_mensagem
     # Atualize os gráficos
     ax_digital.clear()
     ax_digital.plot(informacoes[0])
@@ -38,8 +48,9 @@ def atualizar_graficos():
     canvas_digital.draw()
 
     ax_mod.clear()
-    ax_mod.plot(informacoes[0])
-    ax_mod.set_title(opcoes[1])
+    sinal = encoding_mod[opcoes[2]](1 ,1, 3, informacoes[0])
+    ax_mod.plot(sinal)
+    ax_mod.set_title(opcoes[2])
     ax_mod.set_xlabel("Tempo(s)")
     ax_mod.set_ylabel("Amplitude")
 
