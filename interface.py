@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 from globais import *
 from threading import Thread
 from bits import converter_mensagem_para_bits
+
+ax = None  # Garante que 'ax' seja global
+canvas = None
 def enviar_mensagem():
     # Atualiza as variáveis globais com os valores dos widgets
     bits_mensagem = converter_mensagem_para_bits(mensagem.get())
@@ -18,6 +21,18 @@ def enviar_mensagem():
     for opcao in opcoes:
         send(opcao, clientData)
     disconnect(clientData)
+
+def atualizar_graficos():
+
+    # Atualize os gráficos
+    ax.clear()
+    ax.plot(informacoes[0])
+    ax.set_title(opcoes[1])
+    ax.set_xlabel("Tempo(s)")
+    ax.set_ylabel("Amplitude")
+
+    # Atualize a tela da interface gráfica
+    canvas.draw()
 def interface_grafica(bool):
 
     if bool == True:
@@ -53,6 +68,9 @@ def interface_grafica(bool):
 
     button_enviar = Button(window, text='Enviar', command=enviar_mensagem)
     button_enviar.grid(row=0, column=2, pady=5)
+
+    button_enviar = Button(window, text='Atualizar', command=atualizar_graficos)
+    button_enviar.grid(row=0, column=3, pady=5)
 
     # Enquadramento
     enquadramento_frame = Frame(window)
@@ -110,6 +128,7 @@ def interface_grafica(bool):
     label_FSK.grid(row=3, column=0, padx=10)
     label_8QM.grid(row=4, column=0, padx=10)
 
+    global ax, canvas
     fig, ax = plt.subplots(figsize=(5, 4), dpi=100)
     canvas = FigureCanvasTkAgg(fig, master=window)
     canvas_widget = canvas.get_tk_widget()

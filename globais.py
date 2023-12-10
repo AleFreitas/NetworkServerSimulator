@@ -14,4 +14,5 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 serverData = {"HEADER": HEADER, "FORMAT": FORMAT, "server": server, "ip": SERVER, "DISCONNECT_MESSAGE": DISCONNECT_MESSAGE}
 message_queue = queue.Queue()
-informacoes = []   # Indice 1: Sinal Digital // Indice 2: Bits de Mensagem // Indice 3: Existência de Erro
+informacoes = []   # Indice 1: Sinal Digital // Indice 2: Bits de Mensagem // Indice 3: Existência de # Erro
+
