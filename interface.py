@@ -1,29 +1,34 @@
-from tkinter import *
+# Bibliotecas Utilizadas
 import tkinter as tk
-from connections.client import *
+from threading import Thread
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
+
+# Arquivos Consultados
+from connections.client import *
 from globais import *
-from threading import Thread
 from bits import *
 from carrier_modulation.ask import *
 from carrier_modulation.fsk import *
 
-ax_digital = None  # Garante que 'ax' seja global
+# Variáveis Globais a serem atualizadas na Interface
+ax_digital = None
 canvas_digital = None
 
-ax_mod = None  # Garante que 'ax' seja global
+ax_mod = None
 canvas_mod = None
 
 text_box = None
 text_box1 = None
 text_box2 = None
 
+# Escolha de Modulação
 encoding_mod = {
         'ASK': ask,
         'FSK': fsk,
     }
 
+# Função do Botão Enviar da Interface
 def enviar_mensagem():
     global bits_mensagem
     # Atualiza as variáveis globais com os valores dos widgets
@@ -33,11 +38,15 @@ def enviar_mensagem():
     opcoes.append(modulacao.get())
     opcoes.append(erro.get())
     opcoes.append(erro_ad.get())
+
+    # Conecta ao módulo do transmissor e envia as opções selecionadas
     clientData = connect("transmissor")
     for opcao in opcoes:
         send(opcao, clientData)
+    # Desconecta do módulo
     disconnect(clientData)
 
+# Função do Botão de Atualização
 def atualizar_graficos():
 
     global bits_mensagem, ax_digital, ax_modx
@@ -48,7 +57,7 @@ def atualizar_graficos():
     text_box.insert(END, f"\n")
     text_box.insert(END, f"{mensagem.get()}")   # Escreve a mensagem original
 
-    for item1 in informacoes[1]:                # Escreve os Bits recebidos
+    for item1 in informacoes[1]:                # Escreve os Bits Recebidos
         text_box1.insert(END, f"{item1}")
 
     recebido = converter_bits_para_mensagem(informacoes[1])     # Transforma os Bits da mensagem recebida para msg
@@ -82,6 +91,8 @@ def atualizar_graficos():
 
 
 def interface_grafica(bool):
+
+    # Cria a Thread do servidor apenas uma vez
     if bool == True:
         bool = False
         thread_server = threading.Thread(target=start, args=(serverData,))
@@ -91,7 +102,7 @@ def interface_grafica(bool):
     window = Tk()
     window.title('Interface Gráfica')
 
-    # Mensagem enviada
+    # Mensagem a ser enviada
     label_input = Label(window, text="Digite a mensagem:")
     label_input.grid(row=0, column=0, pady=5)
 
@@ -99,7 +110,7 @@ def interface_grafica(bool):
     mensagem = Entry(window)
     mensagem.grid(row=0, column=1, pady=5)
 
-    # Variáveis para armazenar escolhas de codificação e modulação
+    # Variáveis para armazenar escolhas
     global cod, modulacao
     cod = tk.StringVar()
     modulacao = tk.StringVar()
@@ -113,6 +124,7 @@ def interface_grafica(bool):
     global erro_ad
     erro_ad = tk.StringVar()
 
+    # Envio
     button_enviar = Button(window, text='Enviar', command=enviar_mensagem)
     button_enviar.grid(row=0, column=2, pady=5)
 
@@ -123,11 +135,9 @@ def interface_grafica(bool):
     label_enq = Label(window, text='Enquadramento')
     label_enq.grid(row=2, column=1, padx=3, pady=10)
 
-    button_cont_caract = Radiobutton(window, text="Por contagem de caracter", variable=enquadramento, value=True)
-    button_cont_bits = Radiobutton(window, text="Por contagem de bits", variable=enquadramento, value=False)
+    button_cont_caract = Radiobutton(window, text="Por contagem de Bits", variable=enquadramento, value=True)
 
     button_cont_caract.grid(row=3, column=1, pady=5)
-    button_cont_bits.grid(row=4, column=1, pady=5)
 
     # Codificação
     label_cod = Label(window, text='Codificação')
@@ -146,7 +156,7 @@ def interface_grafica(bool):
     label_erro.grid(row=2, column=3, padx=3, pady=10)  # Adicionei pady aqui
 
     button_PAR = Radiobutton(window, text="PAR", variable=erro, value='PAR')
-    button_CRC = Radiobutton(window, text="CRC", variable=erro, value='CRC')
+    button_CRC = Radiobutton(window, text="HAM", variable=erro, value='HAM')
 
     button_PAR.grid(row=3, column=3, pady=5)
     button_CRC.grid(row=4, column=3, pady=5)

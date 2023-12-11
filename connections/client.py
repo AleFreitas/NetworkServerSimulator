@@ -1,6 +1,9 @@
+#Bibliotecas Utilizadas
 import socket
 import threading
 import pickle
+
+# Função Responsável por Fornecer as informações do Cliente
 def connect(dst):
     HEADER = 64
     PORT = {'transmissor': 5050, 'receptor': 5051, 'interface': 5052}
@@ -12,10 +15,13 @@ def connect(dst):
     clientData = {"HEADER": HEADER, "FORMAT": FORMAT, "client": client}
     return clientData
 
+# Fecha a comunicação
 def disconnect(clientData):
     DISCONNECT_MESSAGE = 'Desconectar'
     send(DISCONNECT_MESSAGE, clientData)
 
+
+# Faz o tratamento da mensagem de acordo com as configurações do cliente
 def send(msg, clientData):
     serialized_msg = pickle.dumps(msg)
     msg_lenght = len(serialized_msg)

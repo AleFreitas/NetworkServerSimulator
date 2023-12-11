@@ -1,3 +1,4 @@
+# Função para converter os Bits em mensagem
 def converter_bits_para_mensagem(bits):
     # Agrupa os bits em grupos de 8 para obter os caracteres originais
     caracteres = [bits[i:i+8] for i in range(0, len(bits), 8)]
@@ -7,6 +8,7 @@ def converter_bits_para_mensagem(bits):
 
     return mensagem
 
+# Função para converter a Mensagem em Bits
 def converter_mensagem_para_bits(mensagem):
     # Converte cada caractere da mensagem para sua representação binária
     bits_mensagem = []

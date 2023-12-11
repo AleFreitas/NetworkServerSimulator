@@ -1,5 +1,6 @@
 from interface import interface_grafica
 
-bool = True
+# Inicializa a Interface Gráfica
 
+bool = True
 interface_grafica(bool)
