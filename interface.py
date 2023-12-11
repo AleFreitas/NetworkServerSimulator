@@ -5,7 +5,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from globais import *
 from threading import Thread
-from bits import converter_mensagem_para_bits
+from bits import *
 from carrier_modulation.ask import *
 from carrier_modulation.fsk import *
 
@@ -14,6 +14,10 @@ canvas_digital = None
 
 ax_mod = None  # Garante que 'ax' seja global
 canvas_mod = None
+
+text_box = None
+text_box1 = None
+text_box2 = None
 
 encoding_mod = {
         'ASK': ask,
@@ -36,7 +40,26 @@ def enviar_mensagem():
 
 def atualizar_graficos():
 
-    global bits_mensagem
+    global bits_mensagem, ax_digital, ax_modx
+
+    for item in bits_mensagem:
+        text_box.insert(END, f"{item}")         # Escreve os Bits da Mensagem Original
+
+    text_box.insert(END, f"\n")
+    text_box.insert(END, f"{mensagem.get()}")   # Escreve a mensagem original
+
+    for item1 in informacoes[1]:                # Escreve os Bits recebidos
+        text_box1.insert(END, f"{item1}")
+
+    recebido = converter_bits_para_mensagem(informacoes[1])     # Transforma os Bits da mensagem recebida para msg
+
+    print(recebido)
+    text_box1.insert(END, f"\n")
+    text_box1.insert(END, f"{recebido}")         # Escreve a mensagem recebida
+
+    for item2 in informacoes[2]:
+        text_box2.insert(END, f"{item2}")       # Escreve se houve erro
+
     # Atualize os gráficos
     ax_digital.clear()
     ax_digital.plot(informacoes[0])
@@ -169,6 +192,22 @@ def interface_grafica(bool):
     ax_mod.set_title("Indefinido")
     ax_mod.set_xlabel("Tempo(s)")
     ax_mod.set_ylabel("Amplitude")
+
+    global text_box, text_box1, text_box2
+    label_msg = Label(window, text='Mensagem Original')
+    label_msg.grid(row=0, column=5, padx=3, pady=5)  # Adicionei pady aqui
+    text_box = Text(window, height=2, width=30)
+    text_box.grid(row=1, column=5, padx=3, pady=5)
+
+    label_msg1 = Label(window, text='Mensagem Recebida')
+    label_msg1.grid(row=2, column=5, padx=3, pady=5)  # Adicionei pady aqui
+    text_box1 = Text(window, height=2, width=30)
+    text_box1.grid(row=3, column=5, padx=3, pady=5)
+
+    label_msg2 = Label(window, text='Houve Erro?')
+    label_msg2.grid(row=4, column=5, padx=3, pady=5)  # Adicionei pady aqui
+    text_box2 = Text(window, height=2, width=30)
+    text_box2.grid(row=5, column=5, padx=3, pady=5)
 
     return window.mainloop()
 
