@@ -48,7 +48,7 @@ def atualizar_graficos():
     canvas_digital.draw()
 
     ax_mod.clear()
-    sinal = encoding_mod[opcoes[2]](1 ,1, 3, informacoes[0])
+    sinal = encoding_mod[opcoes[2]](1 ,1, 3, informacoes[0],opcoes[1])
     ax_mod.plot(sinal)
     ax_mod.set_title(opcoes[2])
     ax_mod.set_xlabel("Tempo(s)")
