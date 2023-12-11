@@ -1,12 +1,10 @@
-# Bibliotecas Utilizadas
+from tkinter import *
 import tkinter as tk
-from threading import Thread
+from connections.client import *
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
-
-# Arquivos Consultados
-from connections.client import *
 from globais import *
+from threading import Thread
 from bits import *
 from carrier_modulation.ask import *
 from carrier_modulation.fsk import *
