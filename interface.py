@@ -185,7 +185,6 @@ def interface_grafica(bool):
 
     label_ASK.grid(row=3, column=0, pady=5)
     label_FSK.grid(row=4, column=0, pady=5)
-    label_8QM.grid(row=5, column=0, pady=5)
 
 
     # Gráfico Digital
