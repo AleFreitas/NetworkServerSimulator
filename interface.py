@@ -47,8 +47,13 @@ def enviar_mensagem():
 # Função do Botão de Atualização
 def atualizar_graficos():
 
-    global bits_mensagem, ax_digital, ax_modx
+    global bits_mensagem, ax_digital, ax_modx, opcoes, informacoes
 
+    text_box.delete(1.0, END)
+    text_box1.delete(1.0, END)
+    text_box2.delete(1.0, END)
+
+    print(opcoes)
     for item in bits_mensagem:
         text_box.insert(END, f"{item}")         # Escreve os Bits da Mensagem Original
 
@@ -60,7 +65,6 @@ def atualizar_graficos():
 
     recebido = converter_bits_para_mensagem(informacoes[1])     # Transforma os Bits da mensagem recebida para msg
 
-    print(recebido)
     text_box1.insert(END, f"\n")
     text_box1.insert(END, f"{recebido}")         # Escreve a mensagem recebida
 
@@ -87,6 +91,9 @@ def atualizar_graficos():
     # Atualize a tela da interface gráfica
     canvas_mod.draw()
 
+    opcoes = []
+    bits_mensagem = []
+    informacoes = []
 
 def interface_grafica(bool):
 
